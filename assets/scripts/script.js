@@ -82,21 +82,42 @@
 
 // 85 - Monster Killer
 // Variable
-let normalAttack = 15;
-// let healthSpan = 100;
-// monsterHealth.value = healthSpan
+const ATTACK_VALUE = 15;
+const MONSTER_ATTACK_VALUE = 20;
+const HEAL_VALUE = 5;
+let chosenMaxLife = 100;
+
 // DOM
 let attackBtn = document.getElementById('attack_btn');
 let resetBtn = document.getElementById('reset_btn');
+let healBtn = document.getElementById('heal_btn');
 let monsterHealth = document.getElementById('monster_health');
+let playerHealth = document.getElementById('player_health');
 
 function resetHealth(){
     monsterHealth.value = 100;
+    playerHealth.value = 100
 }
 
 function attackHandler(){
-    monsterHealth.value = +monsterHealth.value - (Math.random() * normalAttack)
+    const damage = Math.random() * ATTACK_VALUE;
+    monsterHealth.value -= damage
+    const playerDamage = Math.random() * MONSTER_ATTACK_VALUE;
+    playerHealth.value -= playerDamage;
+    if(monsterHealth.value <= 0 && playerHealth.value > 0){
+        alert('You Won!');
+    } else if(playerHealth.value <= 0 && monsterHealth.value > 0 ){
+        alert('You Lost!');
+    } else if(playerHealth.value <= 0 && monsterHealth.value <= 0){
+        alert('You have a Draw!')
+    }
+}
+
+function healHandler(){
+    const heal = Math.floor(Math.random() * HEAL_VALUE);
+    playerHealth.value += heal
 }
 
 attackBtn.addEventListener('click', attackHandler);
 resetBtn.addEventListener('click', resetHealth);
+healBtn.addEventListener('click', healHandler);
