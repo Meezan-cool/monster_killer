@@ -83,14 +83,14 @@
 // 85 - Monster Killer
 // Variable
 let normalAttack = 10;
-let healthSpan = 100;
-monsterHealth.value = healthSpan
+// let healthSpan = 100;
+// monsterHealth.value = healthSpan
 // DOM
 let attackBtn = document.getElementById('attack_btn');
 let monsterHealth = document.getElementById('monster_health');
 
 function attackHandler(){
-    monsterHealth.value = +monsterHealth.value - 10
+    monsterHealth.value = +monsterHealth.value - normalAttack
 }
 
-attackBtn.addEventListener('click', attackHandler)
+attackBtn.addEventListener('click', attackHandler);
