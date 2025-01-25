@@ -81,13 +81,16 @@
 // in this video he setup a new project
 
 // 85 - Monster Killer
+
 // Variable
 const ATTACK_VALUE = 15;
 const MONSTER_ATTACK_VALUE = 15;
-const HEAL_VALUE = 5;
-const SUPER_ATTACK_VALUE = 30
+const HEAL_VALUE = 20;
+const SUPER_ATTACK_VALUE = 30;
+const RESET_TIME = 1000;
+const MODE_ATTACK = 'ATTACK'
+const MODE_SUPER_ATTACK = 'SUPER'
 let chosenMaxLife = 100;
-let log = [];
 
 // DOM 
 let attackBtn = document.getElementById('attack_btn');
@@ -95,28 +98,52 @@ let superBtn = document.getElementById('super_btn');
 let resetBtn = document.getElementById('reset_btn');
 let healBtn = document.getElementById('heal_btn');
 let monsterHealth = document.getElementById('monster_health');
-let playerHealth = document.getElementById('player_health');
+let playerHealth = document.getElementById('player_health'); 
 
+function randomNumGiver(value){
+    return Math.floor(Math.random() * value)
+}
+
+function messageGeneratorWithReset(message){
+    alert(message);
+    setTimeout(()=>resetHealth(),RESET_TIME);
+}
+
+function endRound(){
+    if(monsterHealth.value <= 0 && playerHealth.value > 0){
+        messageGeneratorWithReset('You Won!');
+    } else if(playerHealth.value <= 0 && monsterHealth.value > 0 ){
+        messageGeneratorWithReset('You Lost!');
+    } else if(playerHealth.value <= 0 && monsterHealth.value <= 0){
+        messageGeneratorWithReset('You have a Draw!');
+    }
+}
+
+// Attack Mode 
 function attackMonster(mode){
     let maxDamage;
-    if(mode === 'ATTACK'){
-        maxDamage = Math.floor(Math.random() * ATTACK_VALUE);
+    if(mode === MODE_ATTACK){
+        maxDamage = randomNumGiver(ATTACK_VALUE);
     } else {
-        maxDamage = Math.floor(Math.random() * SUPER_ATTACK_VALUE);
+        maxDamage = randomNumGiver(SUPER_ATTACK_VALUE);
     }
     monsterHealth.value -= maxDamage;
-    const playerDamage = Math.random() * MONSTER_ATTACK_VALUE;
-    playerHealth.value -= playerDamage;
-    if(monsterHealth.value <= 0 && playerHealth.value > 0){
-        alert('You Won!');
-        setTimeout(()=>resetHealth(),1000)
-    } else if(playerHealth.value <= 0 && monsterHealth.value > 0 ){
-        alert('You Lost!');
-        setTimeout(()=>resetHealth(),1000)
-    } else if(playerHealth.value <= 0 && monsterHealth.value <= 0){
-        alert('You have a Draw!');
-        setTimeout(()=>resetHealth(),1000)
-    }
+    playerHealth.value -= randomNumGiver(MONSTER_ATTACK_VALUE);
+    endRound();
+}
+
+function attackHandler(){
+    attackMonster(MODE_ATTACK);
+}
+
+function superHandler(){
+    attackMonster(MODE_SUPER_ATTACK);
+}
+
+function healHandler(){
+    if(playerHealth.value === chosenMaxLife) 
+        return alert('Health is Full')
+    playerHealth.value += randomNumGiver(HEAL_VALUE)
 }
 
 function resetHealth(){
@@ -124,20 +151,7 @@ function resetHealth(){
     playerHealth.value = chosenMaxLife;
 }
 
-
-function attackHandler(){
-    attackMonster('ATTACK');
-}
-
-function superHandler(){
-    attackMonster('SUPER');
-}
-
-function healHandler(){
-    const heal = Math.floor(Math.random() * HEAL_VALUE);
-    playerHealth.value += heal
-}
-
+// Event Listener
 attackBtn.addEventListener('click', attackHandler);
 superBtn.addEventListener('click', superHandler);
 resetBtn.addEventListener('click', resetHealth);
