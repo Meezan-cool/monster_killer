@@ -87,8 +87,9 @@ const MONSTER_ATTACK_VALUE = 15;
 const HEAL_VALUE = 5;
 const SUPER_ATTACK_VALUE = 30
 let chosenMaxLife = 100;
+let log = [];
 
-// DOM
+// DOM 
 let attackBtn = document.getElementById('attack_btn');
 let superBtn = document.getElementById('super_btn');
 let resetBtn = document.getElementById('reset_btn');
@@ -103,39 +104,33 @@ function attackMonster(mode){
     } else {
         maxDamage = Math.floor(Math.random() * SUPER_ATTACK_VALUE);
     }
-    return maxDamage
+    monsterHealth.value -= maxDamage;
+    const playerDamage = Math.random() * MONSTER_ATTACK_VALUE;
+    playerHealth.value -= playerDamage;
+    if(monsterHealth.value <= 0 && playerHealth.value > 0){
+        alert('You Won!');
+        setTimeout(()=>resetHealth(),1000)
+    } else if(playerHealth.value <= 0 && monsterHealth.value > 0 ){
+        alert('You Lost!');
+        setTimeout(()=>resetHealth(),1000)
+    } else if(playerHealth.value <= 0 && monsterHealth.value <= 0){
+        alert('You have a Draw!');
+        setTimeout(()=>resetHealth(),1000)
+    }
 }
 
 function resetHealth(){
-    monsterHealth.value = 100;
-    playerHealth.value = 100;
+    monsterHealth.value = chosenMaxLife;
+    playerHealth.value = chosenMaxLife;
 }
 
 
 function attackHandler(){
-    monsterHealth.value -= attackMonster('ATTACK');
-    const playerDamage = Math.random() * MONSTER_ATTACK_VALUE;
-    playerHealth.value -= playerDamage;
-    if(monsterHealth.value <= 0 && playerHealth.value > 0){
-        alert('You Won!');
-    } else if(playerHealth.value <= 0 && monsterHealth.value > 0 ){
-        alert('You Lost!');
-    } else if(playerHealth.value <= 0 && monsterHealth.value <= 0){
-        alert('You have a Draw!')
-    }
+    attackMonster('ATTACK');
 }
 
 function superHandler(){
-    monsterHealth.value -= attackMonster('SUPER');
-    const playerDamage = Math.random() * MONSTER_ATTACK_VALUE;
-    playerHealth.value -= playerDamage;
-    if(monsterHealth.value <= 0 && playerHealth.value > 0){
-        alert('You Won!');
-    } else if(playerHealth.value <= 0 && monsterHealth.value > 0 ){
-        alert('You Lost!');
-    } else if(playerHealth.value <= 0 && monsterHealth.value <= 0){
-        alert('You have a Draw!')
-    }
+    attackMonster('SUPER');
 }
 
 function healHandler(){
