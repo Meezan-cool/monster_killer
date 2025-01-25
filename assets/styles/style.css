@@ -6,6 +6,9 @@
     user-select: none;
     font-family: "Poppins", serif;
 }
+progress::-webkit-progress-value {
+    transition:all 400ms ease
+}
 .container{
     display: flex;
     align-items: center;
@@ -28,5 +31,21 @@
     min-height: 200px;
     width: 80%;
     max-width: 350px;
-    background-color: aliceblue;
+    background-color: #232323;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+}
+.health_box .health_view{
+    width: 80%;
+}
+.health_box .health_view .health_char{
+    font-size: 14px;
+    letter-spacing: 2px;
+}
+.health_box .health_view progress{
+    width: 100%;
+    transition: all 400ms ease
 }
