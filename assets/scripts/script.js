@@ -77,4 +77,7 @@
 // Conversion: Done intentionally and explicitly by the developer.
 // Coercion: Happens implicitly when JavaScript tries to handle mixed types
 
-// 84 - 
+// 84 - Setting Up a Bigger Example Project (The Monster Killer)
+// in this video he setup a new project
+
+// 85 - Monster Killer
