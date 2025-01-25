@@ -6,6 +6,8 @@
     <title>Monster Killer</title>
     <link rel="stylesheet" href="assets/styles/style.css">
     <script src="assets/scripts/script.js" defer></script>
+    <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+
 </head>
 <body>
     <div class="container">
@@ -13,14 +15,31 @@
         <div class="health_box">
             <div class="health_view">
                 <div class="health_char">Monster</div>
-                <progress id="monster_health" max="100" value="100"></progress>
+                <div class="progress_bar">
+                    <progress id="monster_health" max="100" value="100"></progress>
+                </div>
             </div>
             <div class="health_view">
                 <div class="health_char">Player</div>
-                <progress max="100" value="100"></progress>
+                <div class="progress_bar">
+                    <progress id="player_health" max="100" value="100"></progress>
+                </div>
             </div>
         </div>
-        <button id="attack_btn">Attack</button>
+      <div class="action_btns">
+        <button id="attack_btn">
+            <span class="iconify" data-icon="solar:target-line-duotone"></span>
+        </button>
+        <button id="attack_btn">
+            <span class="iconify" data-icon="mingcute:target-line"></span>
+        </button>
+        <button id="attack_btn">
+            <span class="iconify" data-icon="solar:health-broken"></span>
+        </button>
+        <button id="reset_btn">
+            <span class="iconify" data-icon="ix:reset"></span>
+        </button>
+      </div>
     </div>
 </body>
 </html>

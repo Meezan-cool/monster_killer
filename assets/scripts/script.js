@@ -82,15 +82,21 @@
 
 // 85 - Monster Killer
 // Variable
-let normalAttack = 10;
+let normalAttack = 15;
 // let healthSpan = 100;
 // monsterHealth.value = healthSpan
 // DOM
 let attackBtn = document.getElementById('attack_btn');
+let resetBtn = document.getElementById('reset_btn');
 let monsterHealth = document.getElementById('monster_health');
 
+function resetHealth(){
+    monsterHealth.value = 100;
+}
+
 function attackHandler(){
-    monsterHealth.value = +monsterHealth.value - normalAttack
+    monsterHealth.value = +monsterHealth.value - (Math.random() * normalAttack)
 }
 
 attackBtn.addEventListener('click', attackHandler);
+resetBtn.addEventListener('click', resetHealth);

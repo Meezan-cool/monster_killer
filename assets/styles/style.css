@@ -9,6 +9,31 @@
 progress::-webkit-progress-value {
     transition:all 400ms ease
 }
+ /* Style for the Monster health bar */
+ #monster_health::-webkit-progress-bar {
+    background-color: #f9d0d0; /* Light red background for WebKit browsers */
+  }
+
+  #monster_health::-webkit-progress-value {
+    background-color: rgb(221, 91, 91); /* Red progress value for WebKit browsers */
+  }
+
+  #monster_health::-moz-progress-bar {
+    background-color: rgb(221, 63, 63); /* Red for Firefox */
+  }
+
+  /* Style for the Player health bar */
+  #player_health::-webkit-progress-bar {
+    background-color: #cce5ff; /* Light blue background for WebKit browsers */
+  }
+
+  #player_health::-webkit-progress-value {
+    background-color: rgb(37, 145, 233); /* Blue progress value for WebKit browsers */
+  }
+
+  #player_health::-moz-progress-bar {
+    background-color: rgb(31, 127, 245); /* Blue for Firefox */
+  }
 .container{
     display: flex;
     align-items: center;
@@ -40,6 +65,9 @@ progress::-webkit-progress-value {
 }
 .health_box .health_view{
     width: 80%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 .health_box .health_view .health_char{
     font-size: 14px;
@@ -48,4 +76,39 @@ progress::-webkit-progress-value {
 .health_box .health_view progress{
     width: 100%;
     transition: all 400ms ease
+}
+.progress_bar {
+    width: 100%;
+    background-color: #e0e0e0; /* Default color */
+    border-radius: 8px;
+    overflow: hidden;
+    height: 20px;
+    position: relative;
+    transition: background-color 0.5s ease;
+  }
+  
+progress {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 20px;
+    background-color: #42baf1;
+    transition: all 400ms ease;
+  }
+
+.action_btns{
+    width: 80%;
+    max-width: 350px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7.5px;
+}
+.action_btns button{
+    flex: 1; background-color: #232323;
+    border: none;color: white;
+    font-size: 30px;
+    display: grid;place-items: center;
+    height: 55px;
+    border-radius: 8px;
 }
