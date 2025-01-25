@@ -5,6 +5,7 @@
     box-sizing: border-box;
     user-select: none;
     font-family: "Poppins", serif;
+    -webkit-tap-highlight-color: transparent;
 }
 progress::-webkit-progress-value {
     transition:all 400ms ease
@@ -127,3 +128,7 @@ progress {
 }
 .action_btns button:hover::before{opacity: 1; scale: 1;
 }
+
+#super_btn::before{content: "SUPER";}
+#heal_btn::before{content: "HEAL";}
+#reset_btn::before{content: "RESET";}
