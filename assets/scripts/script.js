@@ -99,6 +99,13 @@ let resetBtn = document.getElementById('reset_btn');
 let healBtn = document.getElementById('heal_btn');
 let monsterHealth = document.getElementById('monster_health');
 let playerHealth = document.getElementById('player_health'); 
+let characterBox = document.querySelector('.player_name')
+
+let playerName = prompt('Enter Player Name');
+
+if(playerName ){
+    characterBox.textContent = playerName
+}
 
 function randomNumGiver(value){
     return Math.floor(Math.random() * value)
