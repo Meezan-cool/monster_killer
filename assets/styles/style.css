@@ -111,4 +111,19 @@ progress {
     display: grid;place-items: center;
     height: 55px;
     border-radius: 8px;
+    transition: all 400ms ease;
+    cursor: pointer;
+    position: relative;
+}
+.action_btns button::before{
+    content: "Attack"; width: 100%;
+    position: absolute; font-size: 13px;
+    bottom: -30px; text-transform: uppercase;
+    letter-spacing: 3px; scale: 0;
+    opacity: 0; transition: all 400ms ease;
+}
+.action_btns button:hover{
+    background-color: rgb(55, 55, 55);
+}
+.action_btns button:hover::before{opacity: 1; scale: 1;
 }

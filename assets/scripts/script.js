@@ -83,8 +83,9 @@
 // 85 - Monster Killer
 // Variable
 const ATTACK_VALUE = 15;
-const MONSTER_ATTACK_VALUE = 20;
+const MONSTER_ATTACK_VALUE = 15;
 const HEAL_VALUE = 5;
+const SUPER_ATTACK_VALUE = 20
 let chosenMaxLife = 100;
 
 // DOM
@@ -94,14 +95,24 @@ let healBtn = document.getElementById('heal_btn');
 let monsterHealth = document.getElementById('monster_health');
 let playerHealth = document.getElementById('player_health');
 
+function attackMonster(mode){
+    let maxDamage;
+    if(mode === 'ATTACK'){
+        maxDamage = ATTACK_VALUE;
+    } else {
+        maxDamage = SUPER_ATTACK_VALUE;
+    }
+    return maxDamage
+}
+
 function resetHealth(){
     monsterHealth.value = 100;
-    playerHealth.value = 100
+    playerHealth.value = 100;
 }
 
 function attackHandler(){
     const damage = Math.random() * ATTACK_VALUE;
-    monsterHealth.value -= damage
+    monsterHealth.value -= damage;
     const playerDamage = Math.random() * MONSTER_ATTACK_VALUE;
     playerHealth.value -= playerDamage;
     if(monsterHealth.value <= 0 && playerHealth.value > 0){
