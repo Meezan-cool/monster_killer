@@ -109,6 +109,7 @@ const LOG_EVENT_MONSTER_ATTACK = 'MONSTER_ATTACK';
 const LOG_EVENT_PLAYER_HEAL = 'PLAYER_HEAL';
 const LOG_EVENT_GAME_OVER = 'GAME_OVER';
 let battleLog = [];
+let playerName;
 
 // DOM 
 let attackBtn = document.getElementById('attack_btn');
@@ -121,11 +122,22 @@ let characterBox = document.querySelector('.player_name')
 let battleLogBox = document.querySelector('.battle_log')
 
 
-let playerName = prompt('Enter Player Name');
-
-if(playerName ){
-    characterBox.textContent = playerName
+function getPlayerName(){
+    let enteredName = prompt('Enter Player Name');
+    if(!enteredName ){
+        throw { message:'Enter a Valid Name' }
+    }
+    return enteredName
 }
+
+try{
+    playerName = getPlayerName()
+}catch(error){
+    console.log(error);
+    playerName = 'Player';
+    alert('You Not Enter a name SO Default Name is Used')
+}
+characterBox.textContent = playerName
 
 function randomNumGiver(value){
     return Math.floor(Math.random() * value)
@@ -266,7 +278,6 @@ function printBattleLog(){
     let i = 0;
     for(let logEntry of battleLog){
         if(!lastLoggedEntry && lastLoggedEntry !== 0 || lastLoggedEntry < i){
-            console.log("Check",lastLoggedEntry, i)
             console.log(`#${i}`);
             for(let key in logEntry){
                 console.log(`${key}: ${logEntry[key]}`)
@@ -284,3 +295,15 @@ superBtn.addEventListener('click', superHandler);
 resetBtn.addEventListener('click', resetHealth);
 healBtn.addEventListener('click', healHandler);
 battleLogBox.addEventListener('click', printBattleLog);
+
+
+// What i learn in this module 
+// * if else use cases
+// * logical operator
+// * combining conditions
+// * ternary expression
+// * comparition operator
+// * loops type of loop
+// * Coercion by logical operators
+// * Error Handling
+// * try catch 
