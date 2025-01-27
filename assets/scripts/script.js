@@ -82,15 +82,33 @@
 
 // 85 - Monster Killer
 
+// 94 - Introducing to ternary Operator
+// if statement return no values!
+// const userName = isLogin ? 'Max' : null
+// if condition is true it will show Max and if condition is false then it will show null
+
+// 95 - 
+// if else are statements and the ternary use cases are expressions 
+
+// 96 - 
+// 
+
 // Variable
 const ATTACK_VALUE = 15;
 const MONSTER_ATTACK_VALUE = 15;
 const HEAL_VALUE = 20;
 const SUPER_ATTACK_VALUE = 30;
 const RESET_TIME = 1000;
+let chosenMaxLife = 100;
+let lastLoggedEntry;
 const MODE_ATTACK = 'ATTACK'
 const MODE_SUPER_ATTACK = 'SUPER'
-let chosenMaxLife = 100;
+const LOG_EVENT_PLAYER_ATTACK = 'PLAYER_ATTACK';
+const LOG_EVENT_PLAYER_STRONG_ATTACK = 'PLAYER_STRONG_ATTACK';
+const LOG_EVENT_MONSTER_ATTACK = 'MONSTER_ATTACK';
+const LOG_EVENT_PLAYER_HEAL = 'PLAYER_HEAL';
+const LOG_EVENT_GAME_OVER = 'GAME_OVER';
+let battleLog = [];
 
 // DOM 
 let attackBtn = document.getElementById('attack_btn');
@@ -100,6 +118,8 @@ let healBtn = document.getElementById('heal_btn');
 let monsterHealth = document.getElementById('monster_health');
 let playerHealth = document.getElementById('player_health'); 
 let characterBox = document.querySelector('.player_name')
+let battleLogBox = document.querySelector('.battle_log')
+
 
 let playerName = prompt('Enter Player Name');
 
@@ -111,31 +131,91 @@ function randomNumGiver(value){
     return Math.floor(Math.random() * value)
 }
 
-function messageGeneratorWithReset(message){
+function writeToLog(ev, val, monsterHealth, playerHealth) {
+    let logEntry = {
+      event: ev,
+      value: val,
+      finalMonsterHealth: monsterHealth,
+      finalPlayerHealth: playerHealth
+    };
+    if (ev === LOG_EVENT_PLAYER_ATTACK) {
+      logEntry.target = 'MONSTER';
+    } else if (ev === LOG_EVENT_PLAYER_STRONG_ATTACK) {
+      logEntry = {
+        event: ev,
+        value: val,
+        target: 'MONSTER',
+        finalMonsterHealth: monsterHealth,
+        finalPlayerHealth: playerHealth
+      };
+    } else if (ev === LOG_EVENT_MONSTER_ATTACK) {
+      logEntry = {
+        event: ev,
+        value: val,
+        target: 'PLAYER',
+        finalMonsterHealth: monsterHealth,
+        finalPlayerHealth: playerHealth
+      };
+    } else if (ev === LOG_EVENT_PLAYER_HEAL) {
+      logEntry = {
+        event: ev,
+        value: val,
+        target: 'PLAYER',
+        finalMonsterHealth: monsterHealth,
+        finalPlayerHealth: playerHealth
+      };
+    } else if (ev === LOG_EVENT_GAME_OVER) {
+      logEntry = {
+        event: ev,
+        value: val,
+        finalMonsterHealth: monsterHealth,
+        finalPlayerHealth: playerHealth
+      };
+    }
+  battleLog.push(logEntry);
+}
+  
+
+function messageGeneratorWithReset(message, battleMessage){
     alert(message);
+    writeToLog(
+        LOG_EVENT_GAME_OVER,
+        battleMessage,
+        monsterHealth.value,
+        playerHealth.value
+      );
     setTimeout(()=>resetHealth(),RESET_TIME);
 }
 
 function endRound(){
-    if(monsterHealth.value <= 0 && playerHealth.value > 0){
-        messageGeneratorWithReset('You Won!');
-    } else if(playerHealth.value <= 0 && monsterHealth.value > 0 ){
-        messageGeneratorWithReset('You Lost!');
-    } else if(playerHealth.value <= 0 && monsterHealth.value <= 0){
-        messageGeneratorWithReset('You have a Draw!');
+    const playerDamage = randomNumGiver(MONSTER_ATTACK_VALUE)
+    playerHealth.value -= playerDamage;
+    writeToLog(
+        LOG_EVENT_MONSTER_ATTACK,
+        playerDamage,
+        monsterHealth.value,
+        playerHealth.value
+      );
+      if(monsterHealth.value <= 0 && playerHealth.value > 0){
+          messageGeneratorWithReset('You Won!','PLAYER WON');
+        } else if(playerHealth.value <= 0 && monsterHealth.value > 0 ){
+            messageGeneratorWithReset('You Lost!','MONSTER WON');
+        } else if(playerHealth.value <= 0 && monsterHealth.value <= 0){
+        messageGeneratorWithReset('You have a Draw!','A Draw');
     }
 }
 
 // Attack Mode 
 function attackMonster(mode){
-    let maxDamage;
-    if(mode === MODE_ATTACK){
-        maxDamage = randomNumGiver(ATTACK_VALUE);
-    } else {
-        maxDamage = randomNumGiver(SUPER_ATTACK_VALUE);
-    }
+    const maxDamage = mode === MODE_ATTACK ? randomNumGiver(ATTACK_VALUE) : randomNumGiver(SUPER_ATTACK_VALUE);
+    const logEvent =  mode === MODE_ATTACK ? LOG_EVENT_PLAYER_ATTACK : LOG_EVENT_PLAYER_STRONG_ATTACK; 
     monsterHealth.value -= maxDamage;
-    playerHealth.value -= randomNumGiver(MONSTER_ATTACK_VALUE);
+    writeToLog(
+        logEvent,
+        maxDamage,
+        monsterHealth.value,
+        playerHealth.value
+      );
     endRound();
 }
 
@@ -150,12 +230,52 @@ function superHandler(){
 function healHandler(){
     if(playerHealth.value === chosenMaxLife) 
         return alert('Health is Full')
-    playerHealth.value += randomNumGiver(HEAL_VALUE)
+    const healValue = randomNumGiver(HEAL_VALUE)
+    playerHealth.value += healValue;
+    writeToLog(
+        LOG_EVENT_PLAYER_HEAL,
+        healValue,
+        monsterHealth.value,
+        playerHealth.value
+      );
+    endRound()
 }
 
 function resetHealth(){
     monsterHealth.value = chosenMaxLife;
     playerHealth.value = chosenMaxLife;
+    // battleLog = [];
+}
+
+function printBattleLog(){
+    // for(let i=0;i<battleLog.length;i++){
+    //     console.log(battleLog[i]);
+    // }
+    // let j=3;
+    // While Loop
+    // while(j<3){
+    //     console.log(`${j}`);
+    //     j++;
+    // }
+    // Do While
+    // do{
+    //     console.log(j);
+    //     j++
+    // } while(j<3);
+
+    let i = 0;
+    for(let logEntry of battleLog){
+        if(!lastLoggedEntry && lastLoggedEntry !== 0 || lastLoggedEntry < i){
+            console.log("Check",lastLoggedEntry, i)
+            console.log(`#${i}`);
+            for(let key in logEntry){
+                console.log(`${key}: ${logEntry[key]}`)
+            }
+            lastLoggedEntry = i;
+            break
+        }
+        i++;
+    }
 }
 
 // Event Listener
@@ -163,3 +283,4 @@ attackBtn.addEventListener('click', attackHandler);
 superBtn.addEventListener('click', superHandler);
 resetBtn.addEventListener('click', resetHealth);
 healBtn.addEventListener('click', healHandler);
+battleLogBox.addEventListener('click', printBattleLog);
